@@ -30,7 +30,7 @@ function onMouseMove(evt) {
 }
 //-----------------------------//
 
-//-----GET CANVAS CONTEXT------//
+//-----GET CANVAS CONTEXT and Draw every 10 milisec------//
 function getCanvasContext() {
 //ctx is the DOM canvas element. [0] must be used since canvas
 // is not part of jquery so get context is not understood by Jarvis
@@ -42,18 +42,67 @@ function getCanvasContext() {
 //execute drawBall every 10 milisecs
    stopGame=setInterval(drawInCanvas,10);
 };
+
+
+//------Start Game drawing no movement just presentation---//
 function getCanvasContext1() {
 //ctx is the DOM canvas element. [0] must be used since canvas
 // is not part of jquery so get context is not understood by Jarvis
   ctx = $('#canvas')[0].getContext("2d");
   canvasWidth=$('#canvas').width();
   canvasHeight=$('#canvas').height();
-//   console.log('Width of canvas this is inside startBall function ',canvasWidth);
-
+//console.log('Width of canvas this is inside startBall function ',canvasWidth);
 //execute drawBall every 10 milisecs
 metalbarInitialPos();
-    bricks();
-    // mouseSpace();
-   drawInCanvas();
-   
+bricks();
+resetBallPosition();
+// mouseSpace();
+//draw one time fro presentation only---//
+drawInCanvas();
+$('#start').show();
+console.log('insidegetcontext', life);
 };
+
+function startGame(){
+    getCanvasContext1();
+    $("#start").click(function(){
+    $('#start').hide();  
+    getCanvasContext();
+    metalbarInitialPos();
+    bricks();
+    mouseSpace();
+  });
+}
+//Life remaining
+function lifeRemainig(){
+  // console.log('life inside LR function',life);
+  // console.log('life',life);
+  if (life!=0){
+    // console.log('lifeinside2',life);
+
+    $('#life').html(life);
+    // getCanvasContext1();
+  }else {
+    clearInterval(stopGame);
+      $('#life').html("0")
+      // $('#life').html("game over")
+       
+  }
+}
+function lifeCounter(){
+  // console.log('life counter inside function LC',life);
+  life = life -1;
+  // console.log('life after -1 insideFLC',life);
+}
+function gameOver(){
+  var gameOver= 'GAME OVER';
+  $("#gameover").html(gameOver);
+  $("#gameover").css("padding","20px");
+  $("#gameover").css("border","2px solid yellow");
+  $("#startagain").html("Play Again?")
+  $("#startagain").click(function(){
+    startGame();
+   
+  });
+
+}

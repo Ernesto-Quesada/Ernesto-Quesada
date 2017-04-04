@@ -19,20 +19,15 @@ var brickwidth;
 var brickhi;
 var padding;
 var counter =0;
-var life =3;
+var life =1;
 
 
-function startGame(){
-    getCanvasContext1();
-  $("#start").click(function(){
-    $('#start').hide();  
-    getCanvasContext();
-    metalbarInitialPos();
-    bricks();
-    mouseSpace();
-  });
+
+//reset ball position
+function resetBallPosition() {
+    x = 272;
+    y = 578;
 }
-
 
 // set initial bar position and size
 function metalbarInitialPos() {
@@ -40,7 +35,7 @@ function metalbarInitialPos() {
       console.log('metalbarX the x where the bar starts drawing this is inside metalbarInitialPos function',metalbarx);
       // metalbarhi = 10;
       metalbarwi = 60;
-    }
+}
 // Metal Bar creation
 function metalBarCreation(x,y,width,height){
       ctx.beginPath();
@@ -50,9 +45,6 @@ function metalBarCreation(x,y,width,height){
       ctx.closePath();
       ctx.stroke();
     }
-
-
-
 
 
 //Bricks properties and array of bricks
@@ -75,20 +67,6 @@ function bricks() {
 //to canvas width, canvas height
 function clearCanvas() {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-}
-//Life remaining
-function lifeRemainig(){
-  console.log('life',life);
-  // life= life-1;
-  console.log('life',life);
-  if (life==0){
-    clearInterval(stopGame);
-    $('#life').html("game over")
-  }else {
-    $('#life').html(life);
-    clearCanvas;
-       
-  }
 }
 //Ball creation
     function ball(x,y,radio){
@@ -145,20 +123,22 @@ function drawInCanvas() {
       sbricks[row][col] = 0;
       }
 
-      diferentialMove=(Math.random()*1.3) ;
-     // console.log("DM",diferentialMove);
-    if (x + 10 > canvasWidth || x-10<0)
+// diferentialMove=(Math.random()*1.3) ;
+// console.log("DM",diferentialMove);
+x += moveX;
+y += moveY;
+if (x + 10 > canvasWidth || x-10<0)
       moveX = -moveX;
 
     if (y -10<0)
         moveY = -moveY;
         //(y + moveY>canvasHeight)
     else if(y+10+1>canvasHeight-metalbarhi-1 && x+1>=metalbarx && x+1<=metalbarx+metalbarwi){
-      console.log('y+10>canvasH-metalbarhi',y,' ',"this is y+10->",y+10,'this is canvaH-barHi-> ',canvasHeight-metalbarhi)
-      console.log('Y first else if',y);
-      console.log('X first else if',x);
-      console.log('metalbarx first else if',metalbarx);
-      console.log('adding metalbarx and bar width',metalbarx+metalbarwi)
+      // console.log('y+10>canvasH-metalbarhi',y,' ',"this is y+10->",y+10,'this is canvaH-barHi-> ',canvasHeight-metalbarhi)
+      // console.log('Y first else if',y);
+      // console.log('X first else if',x);
+      // console.log('metalbarx first else if',metalbarx);
+      // console.log('adding metalbarx and bar width',metalbarx+metalbarwi)
 
             if( (x >= metalbarx && x <=metalbarx+metalbarwi/4) || (x >= metalbarx+metalbarwi-metalbarwi/4 && x<=metalbarx+ metalbarwi) )
             { 
@@ -178,24 +158,24 @@ function drawInCanvas() {
 
                 // }
       }
-      else if (y>=canvasHeight){//stop execution by clearin internal of Drawing
+    else if (y>=canvasHeight){//stop execution by clearin internal of Drawing
         //call life counter funtion
-        console.log('y before stop',y)
-        life= life-1;
-        lifeRemainig();
-        console.log('<><><><><')
+          // console.log('y before stop',y)
+          lifeCounter();
+          lifeRemainig();
+          // console.log('life inmediatly after LC',life);
+          if (life!=0){
+            getCanvasContext1();
+          }else {
+            console.log('game over',life)
+            gameOver();
+          }
+      console.log('<><><><><')
       clearInterval(stopGame);
       }
-    x += moveX;
-    y += moveY;
+    // x += moveX;
+    // y += moveY;
 }
-// function test(){
-// startBall();
-// metalbarInitialPos();
-// $(document).mousemove(onMouseMove);
-// mouseSpace();
-// bricks();
-// }
 
 
 
@@ -207,34 +187,7 @@ $(document).ready(function(){
    introGameIN();
   } 
 startGame();
-// getCanvasContext();
-
-// metalbarInitialPos();
-// bricks();
-// $(document).mousemove(onMouseMove);
-// mouseSpace();
 });
-
-                //   if(x>metalbarx && x< metalbarx+metalbarwi){
-                //   console.log("hiting inside the bar at",x);
-                //   console.log('metalbarx 2',metalbarx)
-                  
-                //   if(x>metalbarx && x<metalbarx+metalbarwi/2){
-                //       // diferentialMove=(Math.random()*8) ;
-                //       console.log("hiting the bar at",x);
-                //       console.log("second if");
-                //       moveY= -moveY;
-                //       // console.log("DMY",diferentialMove);
-                //       // moveX = -moveX;
-                //       console.log(moveX);
-                      
-                //   } else if (x>metalbarx+metalbarwi/2 && x<metalbarx+metalbarwi) {
-                //         moveY= -moveY;
-                //         // moveX =moveX*diferentialMove;
-                //         // console.log("DMY",diferentialMove);
-                //         console.log("Y",moveY);
-                //         console.log('third if');
-                //         console.log("hiting the bar at",x);
 
 
 // sbricks.forEach(function(ele){
