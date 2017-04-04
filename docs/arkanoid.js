@@ -19,7 +19,9 @@ var brickwidth;
 var brickhi;
 var padding;
 var counter =0;
-var life =3;
+var life = 3;
+
+
 
 
 
@@ -29,6 +31,13 @@ function resetBallPosition() {
     y = 578;
 }
 
+
+//reset ball move
+function resetBallMove() {
+    moveX = 2;
+    moveY = 6;
+}
+
 // set initial bar position and size
 function metalbarInitialPos() {
       metalbarx = canvasWidth/2 -metalbarwi/2;
@@ -36,12 +45,17 @@ function metalbarInitialPos() {
       // metalbarhi = 10;
       metalbarwi = 60;
 }
+
+
 // Metal Bar creation
 function metalBarCreation(x,y,width,height){
       ctx.beginPath();
       ctx.rect(x,y,width,height);
-      ctx.lineWidth="2";
-      ctx.strokeStyle="red";
+      ctx.lineWidth = "2";
+      ctx.fillStyle = '#000'
+      ctx.strokeStyle = "#cecece";
+    ctx.fill();
+      
       ctx.closePath();
       ctx.stroke();
     }
@@ -71,7 +85,12 @@ function clearCanvas() {
 //Ball creation
     function ball(x,y,radio){
       ctx.beginPath();
-      ctx.arc(x, y, radio, 0, Math.PI*2,true);
+      ctx.arc(x, y, radio, 0, Math.PI * 2, true);
+      
+      ctx.fillStyle = '#' + (0xff0101 + (Math.random()) * 0xff8001).toString(16).substr(1, 6);
+      ctx.strokeStyle = '#' + (0xff0101 + (Math.random()) * 0xff8001).toString(16).substr(1, 6);
+      ctx.fill();
+      ctx.lineWidth = 1;
       ctx.closePath();
       ctx.stroke();
     }
@@ -179,7 +198,22 @@ if (x + 10 > canvasWidth || x-10<0)
 
 
 
-$(document).ready(function(){
+$(document).ready(function () {
+    $("#startagain").click(function () {
+
+        
+        $(this).hide();
+        $("#gameover").hide();
+        
+        metalbarInitialPos();
+        bricks();
+        resetBallPosition();
+        resetBallMove();
+
+        startGame();
+        $(this).unbind("click")
+    });
+
   var firstTime = localStorage.getItem("first_time");
   if(!firstTime) {
     // first time loaded!

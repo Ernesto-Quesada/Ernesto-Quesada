@@ -56,6 +56,9 @@ function getCanvasContext1() {
 metalbarInitialPos();
 bricks();
 resetBallPosition();
+resetBallMove();
+   
+
 // mouseSpace();
 //draw one time fro presentation only---//
 drawInCanvas();
@@ -63,7 +66,8 @@ $('#start').show();
 console.log('insidegetcontext', life);
 };
 
-function startGame(){
+function startGame() {
+    lifeRemainig();
     getCanvasContext1();
     $("#start").click(function(){
     $('#start').hide();  
@@ -94,15 +98,14 @@ function lifeCounter(){
   life = life -1;
   // console.log('life after -1 insideFLC',life);
 }
-function gameOver(){
+function gameOver() {
   var gameOver= 'GAME OVER';
   $("#gameover").html(gameOver);
   $("#gameover").css("padding","20px");
   $("#gameover").css("border","2px solid yellow");
-  $("#startagain").html("Play Again?")
-  $("#startagain").click(function(){
-    startGame();
-   
-  });
 
+  $("#startagain").html("Play Again?")
+  $("#startagain").css("padding", "20px");
+  $("#startagain").css("border", "2px solid yellow");
+  
 }
