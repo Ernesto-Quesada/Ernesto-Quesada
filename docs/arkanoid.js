@@ -19,7 +19,7 @@ var brickwidth;
 var brickhi;
 var padding;
 var counter =0;
-var life =1;
+var life =3;
 
 
 
